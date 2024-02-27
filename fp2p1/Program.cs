@@ -34,7 +34,19 @@ namespace fp2p1
 
         static void Main()
         {
+            Tablero tab = new Tablero();
+            Coor act = new Coor { x = 0, y = 0 };    // Inicializa la posición del cursor
+            Coor ori = new Coor { x = -1, y = -1 };   // Inicializa la posición de la esquina origen
 
+            LeeNivel("001.txt", ref tab);
+
+            while (true)
+            {
+               
+                Render(tab, act, ori);
+                char input = LeeInput();
+                ProcesaInput(input, tab, ref act, ref ori);
+            }
         }
 
         static void LeeNivel(string file, ref Tablero tab)
@@ -91,7 +103,7 @@ namespace fp2p1
         {
             Console.Clear();
 
-            // Dibuja el tablero vacío con intersecciones '+'
+            // Dibuja el tablero vacio 
             for (int i = 0; i < tab.fils; i++)
             {
                 for (int j = 0; j < tab.cols; j++)
@@ -139,7 +151,7 @@ namespace fp2p1
                 Console.ResetColor();
             }
 
-            // Información de depuración si DEBUG es true
+            // Información de DEBUG 
             if (DEBUG)
             {
                 Console.SetCursorPosition(0, 20);
@@ -169,8 +181,42 @@ namespace fp2p1
             }
         }
 
+        static void ProcesaInput(char ch, Tablero tab, ref Coor act, ref Coor ori)
+        {
+            switch (ch)
+            {
+                case 'l':
+                    if (act.x > 0) act.x--;
+                    break;
+                case 'r':
+                    if (act.x < tab.cols - 1) act.x++;
+                    break;
+                case 'u':
+                    if (act.y > 0) act.y--;
+                    break;
+                case 'd':
+                    if (act.y < tab.fils - 1) act.y++;
+                    break;
+                case 'c':
+                    // Marcar la primera esquina del rectángulo en curso
+                    if (ori.x == -1)
+                    {
+                        ori = act;
+                    }
+                    else
+                    {
+                        ori = new Coor { x = -1, y = -1 };
+                    } // Si ya hay una esquina marcada, borra la selección
+                    break;
+                case 'q':
+                    // Salir del programa falta condicion para salir
+                    break;
+            }
+        }
 
-        static char leeInput()
+
+
+        static char LeeInput()
         {
             char d = ' ';
             while (d == ' ')
