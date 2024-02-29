@@ -170,7 +170,7 @@ namespace fp2p1
         static void RenderRect(Rect r)
         {
             // Dibuja las conexiones horizontales "---"
-            for (int i = r.lt.x * 4 ; i < r.rb.x * 4 ; i += 4)
+            for (int i = r.lt.x * 4 + 1; i < r.rb.x * 4 + 1; i += 4)
             {
                 Console.SetCursorPosition(i, r.lt.y * 2);
                 Console.Write("---");
