@@ -170,20 +170,20 @@ namespace fp2p1
         static void RenderRect(Rect r)
         {
             // Dibuja las conexiones horizontales "---"
-            for (int i = r.lt.x * 4 + 1; i < r.rb.x * 4 + 1; i += 4)
+            for (int i = r.lt.x * 4 ; i < r.rb.x * 4 ; i += 4)
             {
-                Console.SetCursorPosition(i * 2, r.lt.y * 2);
+                Console.SetCursorPosition(i, r.lt.y * 2);
                 Console.Write("---");
-                Console.SetCursorPosition(i * 2, r.rb.y * 2);
+                Console.SetCursorPosition(i, r.rb.y * 2);
                 Console.Write("---");
             }
 
             // Dibuja las conexiones verticales "|"
             for (int i = r.lt.y * 2 + 1; i <= r.rb.y * 2 - 1; i += 2)
             {
-                Console.SetCursorPosition(r.lt.x * 4 + 4, i );
+                Console.SetCursorPosition(r.lt.x * 4, i );
                 Console.Write("|");
-                Console.SetCursorPosition(r.rb.x * 4 + 4, i );
+                Console.SetCursorPosition(r.rb.x * 4, i );
                 Console.Write("|");
             }
         }
@@ -196,13 +196,13 @@ namespace fp2p1
                     if (act.x > 0) act.x --;
                     break;
                 case 'r':
-                    if (act.x < tab.cols) act.x++;
+                    if (act.x < tab.cols - 1) act.x++;
                     break;
                 case 'u':
                     if (act.y > 0) act.y--;
                     break;
                 case 'd':
-                    if (act.y < tab.fils) act.y++;
+                    if (act.y < tab.fils - 1) act.y++;
                     break;
                 case 'c':
                     // Marcar la primera esquina del rectángulo en curso

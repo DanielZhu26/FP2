@@ -15,11 +15,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\hlocal\\FP2\\fp2p1\\fp2p1.csproj",
+      "projectUniqueName": "C:\\Users\\usuario_local\\Documents\\GitHub\\FP2\\fp2p1\\fp2p1.csproj",
       "projectName": "fp2p1",
-      "projectPath": "C:\\hlocal\\FP2\\fp2p1\\fp2p1.csproj",
+      "projectPath": "C:\\Users\\usuario_local\\Documents\\GitHub\\FP2\\fp2p1\\fp2p1.csproj",
       "packagesPath": "C:\\Users\\usuario_local\\.nuget\\packages\\",
-      "outputPath": "C:\\hlocal\\FP2\\fp2p1\\obj\\",
+      "outputPath": "C:\\Users\\usuario_local\\Documents\\GitHub\\FP2\\fp2p1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "c:\\software\\programacion\\MSVStudio2017\\Shared\\NuGetPackages",
@@ -68,7 +68,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "c:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "c:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
   }
