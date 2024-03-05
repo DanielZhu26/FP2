@@ -34,20 +34,39 @@ namespace fp2p1
 
         static void Main()
         {
-            Tablero tab = new Tablero();
-            Coor act = new Coor { x = 0, y = 0 };    // Inicializa la posición del cursor
-            Coor ori = new Coor { x = -1, y = -1 };   // Inicializa la posición de la esquina origen
+            int nivelActual = 1; // Nivel inicial
+            bool juegoTerminado = false;
 
-            LeeNivel("001.txt", ref tab);
-
-            while (true)
+            while (!juegoTerminado)
             {
-               
-                Render(tab, act, ori);
-                char input = LeeInput();
-                ProcesaInput(input, tab, ref act, ref ori);
+                string nombreArchivo = "001.txt"; // Nombre de archivo
+                Console.Clear();
+                Console.WriteLine($"Nivel {nivelActual}");
+                Console.WriteLine("Presiona Enter para comenzar...");
+
+                Console.ReadLine(); 
+
+                // Juega el nivel y actualiza el estado del juego
+                juegoTerminado = JuegaNivel(nombreArchivo);
+
+                if (juegoTerminado)
+                {
+                    nivelActual++;
+                }
+                else
+                {
+                    Console.WriteLine("¿Quieres intentar el nivel de nuevo? (S para sí, cualquier otra tecla para salir)");
+                    char retryInput = Console.ReadKey().KeyChar;
+                    if (char.ToUpper(retryInput) != 'S')
+                    {
+                        break; // Sale del bucle si el jugador decide no volver a intentar el nivel.
+                    }
+                }
             }
+
+            Console.WriteLine("Fin del juego. ¡Hasta luego!");
         }
+
 
         static void LeeNivel(string file, ref Tablero tab)
         {
@@ -151,7 +170,7 @@ namespace fp2p1
                 Console.ResetColor();
             }
 
-           
+
 
             // Información de DEBUG 
             if (DEBUG)
@@ -181,9 +200,9 @@ namespace fp2p1
             // Dibuja las conexiones verticales "|"
             for (int i = r.lt.y * 2 + 1; i <= r.rb.y * 2 - 1; i += 2)
             {
-                Console.SetCursorPosition(r.lt.x * 4, i );
+                Console.SetCursorPosition(r.lt.x * 4, i);
                 Console.Write("|");
-                Console.SetCursorPosition(r.rb.x * 4, i );
+                Console.SetCursorPosition(r.rb.x * 4, i);
                 Console.Write("|");
             }
         }
@@ -208,12 +227,22 @@ namespace fp2p1
                     // Marcar la primera esquina del rectángulo en curso
                     if (ori.x == -1)
                     {
-                        ori = act;
+                        // Comienza la selección de un nuevo rectángulo.
+                        ori = new Coor { x = act.x, y = act.y };
                     }
                     else
                     {
-                        ori = new Coor { x = -1, y = -1 };
-                    } // Si ya hay una esquina marcada, borra la selección
+                        // Termina la selección del rectángulo y lo inserta en el tablero.
+                        Coor c1 = new Coor { x = ori.x, y = ori.y };
+                        Coor c2 = new Coor { x = act.x, y = act.y };
+
+                        // Si se intenta marcar la primera esquina sobre otro ya existente, elimina el segundo.
+                        EliminaRect(ref tab, c1);
+
+                        // Inserta el nuevo rectángulo en el tablero.
+                        InsertaRect(ref tab, c1, c2);
+                        ori = new Coor { x = -1, y = -1 }; // Reinicia la selección
+                    }
                     break;
                 case 'q':
                     // Salir del programa falta condicion para salir
@@ -255,6 +284,131 @@ namespace fp2p1
             }
             return d;
         }
+
+        static bool Dentro(Coor c, Rect r)
+        {
+            // Implementa la determinación de si la coordenada c está dentro del rectángulo r.
+            return (c.x > r.lt.x && c.x < r.rb.x && c.y > r.lt.y && c.y < r.rb.y);
+        }
+
+        static bool Intersect(Rect r1, Rect r2)
+        {
+            // Implementa la determinación de si dos rectángulos tienen intersección común.
+            return !(r1.rb.x < r2.lt.x || r1.lt.x > r2.rb.x || r1.rb.y < r2.lt.y || r1.lt.y > r2.rb.y);
+        }
+
+        static void InsertaRect(ref Tablero tab, Coor c1, Coor c2)
+        {
+            Rect nuevoRect = NormalizaRect(c1, c2);
+
+            // Verifica si el nuevo rectángulo se solapa con alguno de los existentes.
+            bool solapamiento = false;
+            for (int i = 0; i < tab.numRects; i++)
+            {
+                if (Intersect(nuevoRect, tab.rects[i]))
+                {
+                    solapamiento = true;
+                    break;
+                }
+            }
+
+            if (!solapamiento)
+            {
+                // Inserta el nuevo rectángulo en el tablero.
+                tab.rects[tab.numRects] = nuevoRect;
+                tab.numRects++;
+            }
+        }
+
+        static bool EliminaRect(ref Tablero tab, Coor c)
+        {
+            bool eliminado = false;
+            for (int i = 0; i < tab.numRects; i++)
+            {
+                if (Dentro(c, tab.rects[i]))
+                {
+                    // Elimina el rectángulo si contiene la coordenada c.
+                    for (int j = i; j < tab.numRects - 1; j++)
+                    {
+                        tab.rects[j] = tab.rects[j + 1];
+                    }
+                    tab.numRects--;
+                    eliminado = true;
+                }
+            }
+            return eliminado;  
+        }
+
+        static int AreaRect(Rect r)
+        {
+            // Calcula el área del rectángulo.
+            return (r.rb.x - r.lt.x + 1) * (r.rb.y - r.lt.y + 1);
+        }
+
+        static bool CheckRect(Rect r, Pilar[] p)
+        {
+            bool encontrado = false;
+            int i = 0;
+            while (i < p.Length)
+            {
+                if (Dentro(p[i].coor, r) && AreaRect(r) == p[i].val)
+                {
+                    encontrado = true;  // Se encontró un pilar válido dentro del rectángulo.
+                }
+                i++;
+            }
+
+            return encontrado;
+        }
+
+        static bool FinJuego(Tablero tab)
+        {
+            bool encontrado = false;
+            int i = 0;
+            while (i < tab.numRects)
+            {
+                if (!CheckRect(tab.rects[i], tab.pils))
+                {
+                    encontrado = true;  // Si encuentra un rectángulo que no cumple, retorna falso.
+                }
+                i++;
+            }
+
+            return encontrado;
+        }
+
+        static bool JuegaNivel(string file)
+        {
+            bool terminado = false;
+            Tablero tab = new Tablero();
+            Coor act = new Coor { x = 0, y = 0 };
+            Coor ori = new Coor { x = -1, y = -1 };
+
+            LeeNivel(file, ref tab);
+
+            while (!terminado)
+            {
+                Render(tab, act, ori);
+                char input = LeeInput();
+                ProcesaInput(input, tab, ref act, ref ori);
+
+                if (FinJuego(tab))
+                {
+                    Console.Clear();
+                    Console.WriteLine("¡Nivel superado!");
+                    terminado = true;
+                }
+
+                if (input == 'q')
+                {
+                    Console.Clear();
+                    Console.WriteLine("Juego abortado.");
+                    terminado = false;
+                }
+            }
+            return terminado;
+        }
+
 
     }
 }
