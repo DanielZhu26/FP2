@@ -1,32 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "U:\\hlocal\\FP2\\fp2p1\\fp2p1.csproj": {}
+    "C:\\Users\\Daniel\\Documents\\GitHub\\FP2\\fp2p1\\fp2p1.csproj": {}
   },
   "projects": {
-    "U:\\hlocal\\FP2\\fp2p1\\fp2p1.csproj": {
+    "C:\\Users\\Daniel\\Documents\\GitHub\\FP2\\fp2p1\\fp2p1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "U:\\hlocal\\FP2\\fp2p1\\fp2p1.csproj",
+        "projectUniqueName": "C:\\Users\\Daniel\\Documents\\GitHub\\FP2\\fp2p1\\fp2p1.csproj",
         "projectName": "fp2p1",
-        "projectPath": "U:\\hlocal\\FP2\\fp2p1\\fp2p1.csproj",
-        "packagesPath": "C:\\Users\\usuario_local\\.nuget\\packages\\",
-        "outputPath": "U:\\hlocal\\FP2\\fp2p1\\obj\\",
+        "projectPath": "C:\\Users\\Daniel\\Documents\\GitHub\\FP2\\fp2p1\\fp2p1.csproj",
+        "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Daniel\\Documents\\GitHub\\FP2\\fp2p1\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "c:\\software\\programacion\\MSVStudio2017\\Shared\\NuGetPackages",
-          "c:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\usuario_local\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "c:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -60,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "c:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
