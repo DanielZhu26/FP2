@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
-
+//MARCOS PANTOJA
+//DANIEL ZHU
 
 namespace fp2p1
 {
     class Program
     {
-        const bool DEBUG = true;
+        const bool DEBUG = false;
 
         struct Coor
         { // coordenadas en el tablero 
@@ -153,7 +154,7 @@ namespace fp2p1
             }
 
             // Dibuja los rectángulos ya marcados
-            foreach (Rect rect in tab.rects.Take(tab.numRects))
+            foreach (Rect rect in tab.rects)
             {
                 RenderRect(rect);
             }
@@ -207,7 +208,7 @@ namespace fp2p1
             }
         }
 
-        static void ProcesaInput(char ch, Tablero tab, ref Coor act, ref Coor ori)
+        static void ProcesaInput(char ch, ref Tablero tab, ref Coor act, ref Coor ori)
         {
             switch (ch)
             {
@@ -308,10 +309,8 @@ namespace fp2p1
                 if (Intersect(nuevoRect, tab.rects[i]))
                 {
                     solapamiento = true;
-                    break;
                 }
             }
-
             if (!solapamiento)
             {
                 // Inserta el nuevo rectángulo en el tablero.
@@ -367,7 +366,7 @@ namespace fp2p1
             int i = 0;
             while (i < tab.numRects)
             {
-                if (!CheckRect(tab.rects[i], tab.pils))
+                if (CheckRect(tab.rects[i], tab.pils))
                 {
                     encontrado = true;  // Si encuentra un rectángulo que no cumple, retorna falso.
                 }
@@ -390,7 +389,7 @@ namespace fp2p1
             {
                 Render(tab, act, ori);
                 char input = LeeInput();
-                ProcesaInput(input, tab, ref act, ref ori);
+                ProcesaInput(input, ref tab, ref act, ref ori);
 
                 if (FinJuego(tab))
                 {
